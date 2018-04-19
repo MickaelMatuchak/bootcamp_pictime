@@ -1,0 +1,12 @@
+body {
+    width: 80%;
+    margin: auto;
+}
+
+.atk {
+    color: green;
+}
+
+.miss {
+    color: red;
+}

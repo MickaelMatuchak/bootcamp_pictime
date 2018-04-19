@@ -1,0 +1,12 @@
+{
+  "autoload": {
+    "psr-4": {
+      "Bootcamp\\Entities\\" : "class/",
+      "Bootcamp\\Model\\" : "model/",
+      "Bootcamp\\Tests\\" : "tests/"
+    }
+  },
+  "require": {
+    "phpunit/phpunit": "^6.5"
+  }
+}
