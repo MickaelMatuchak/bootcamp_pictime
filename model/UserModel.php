@@ -42,8 +42,16 @@ class UserModel
     // Enregistre un utilisateur en BDD
     public function saveUser(User $user)
     {
-        $req = $this->db->prepare('INSERT INTO user (email, password, fight, victory) VALUES (:email, :password, :fight, :victory)');
-        $req->execute(array('email' => $user->getEmail(), 'password' => $user->getPassword(), 'fight' => $user->getFight(), 'victory' => $user->getVictory()));
+        $req = $this->db->prepare('INSERT INTO user (email, password, fight, victory, points) VALUES (:email, :password, :fight, :victory, :points)');
+        $req->execute(
+            array(
+                'email' => $user->getEmail(),
+                'password' => password_hash('piCraft' . $user->getPassword(), PASSWORD_BCRYPT),
+                'fight' => $user->getFight(),
+                'victory' => $user->getVictory(),
+                'points' => $user->getPoints()
+            )
+        );
 
         $req->closeCursor();
     }
@@ -51,7 +59,7 @@ class UserModel
     // Fournit les données de la BDD à l'objet en fonction de son $name = $value
     public function hydrate(string $name, $value)
     {
-        $req = $this->db->prepare('SELECT id, email, password, fight, victory FROM user WHERE ' . $name . ' = :' . $name);
+        $req = $this->db->prepare('SELECT id, email, password, fight, victory, points FROM user WHERE ' . $name . ' = :' . $name);
         $req->execute(array($name => $value));
 
         $data = $req->fetch();
@@ -62,6 +70,7 @@ class UserModel
             $user->setId($data['id']);
             $user->setFight($data['fight']);
             $user->setVictory($data['victory']);
+            $user->setPoints($data['points']);
 
             // Recherche tous les personnages du joueur
             $personages = new PersonageModel($this->db);
@@ -96,12 +105,13 @@ class UserModel
     // Met à jour l'utilisateur
     public function update(User $user)
     {
-        $req = $this->db->prepare('UPDATE user SET fight = :fight, victory = :victory WHERE email = :email');
+        $req = $this->db->prepare('UPDATE user SET fight = :fight, victory = :victory, points = :points WHERE email = :email');
 
         $req->execute(array(
             'fight' => $user->getFight(),
             'victory' => $user->getVictory(),
-            'email' => $user->getEmail()
+            'email' => $user->getEmail(),
+            'points' => $user->getPoints()
         ));
 
         $req->closeCursor();

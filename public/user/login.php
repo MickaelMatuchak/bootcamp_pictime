@@ -16,16 +16,23 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 
         $db = Pdo::getInstance();
 
-        $user = new User($_POST['email'], $_POST['password']);
         $userModel = new UserModel($db);
 
-        // Vérifie si l'utilisateur existe avec le bon MDP
-        if ($userModel->isAllowConnexion($user)) {
+        // Si l'email n'est pas en BDD on redirige
+        try {
+            $userModel->hydrate('email', $_POST['email']);
+            $user = $userModel->fetch();
+        } catch (InvalidArgumentException $exception) {
+            header('Location: ../index.php');
+        }
+
+        // Si le password est valide on ajoute en session
+        if ($user !== false && password_verify('piCraft' . $_POST['password'], $user->getPassword())) {
             // Ouvre une session
             $user->setSession();
         }
+
     }
 }
 
-// Redirige sur la page d'accueil
 header('Location: ../index.php');

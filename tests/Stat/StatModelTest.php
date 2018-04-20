@@ -5,7 +5,6 @@ namespace Tests;
 use Bootcamp\Model\StatModel;
 use Bootcamp\Entities\Stat;
 use Bootcamp\Entities\Personage;
-use Bootcamp\Entities\Pdo;
 
 use PHPUnit\Framework\TestCase;
 

@@ -4,7 +4,6 @@ namespace Tests;
 
 use Bootcamp\Entities\User;
 use Bootcamp\Model\UserModel;
-use Bootcamp\Entities\Pdo;
 
 use PHPUnit\Framework\TestCase;
 
@@ -79,7 +78,9 @@ class UserModelTest extends TestCase
 
         $this->assertEquals(1, $user->getId());
         $this->assertEquals('mickael.matuchak@pictime-groupe.com', $user->getEmail());
-        $this->assertEquals('azerty', $user->getPassword());
+        $this->assertEquals(100, $user->getPoints());
+        $this->assertEquals(10, $user->getFight());
+        $this->assertEquals(10, $user->getVictory());
     }
 
     /**
@@ -88,17 +89,15 @@ class UserModelTest extends TestCase
      */
     public function hydrateFakeUser()
     {
-        $user = new User('testNotExist@gmail.com', '');
-
         $db = Pdo::getInstance();
         $userModel = new UserModel($db);
 
-        $userModel->hydrate('email', $user->getEmail());
+        $userModel->hydrate('email', 'testNotExist@gmail.com');
     }
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
+     * @expectedException \PDOException
      */
     public function hydrateFakeValueUser()
     {

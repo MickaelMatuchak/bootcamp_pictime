@@ -97,7 +97,7 @@ class PersonageTest extends TestCase
         $perso->revive();
 
         $this->assertEquals(true, $perso->getStatus());
-        $this->assertEquals(100, $perso->getLife());
+        $this->assertEquals(90, $perso->getLife());
     }
 
     /**

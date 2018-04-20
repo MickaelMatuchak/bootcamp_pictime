@@ -3,7 +3,6 @@
 namespace Tests;
 
 use Bootcamp\Entities\Elf;
-use Bootcamp\Entities\Pdo;
 use Bootcamp\Model\PersonageModel;
 use PHPUnit\Framework\TestCase;
 
@@ -14,12 +13,10 @@ class PersonageModelTest extends TestCase
      */
     public function expectedPersoExist()
     {
-        $perso = new Elf('Bidou', 100);
-
         $db = Pdo::getInstance();
         $persoModel = new PersonageModel($db);
 
-        $this->assertEquals(true, $persoModel->isExist($perso->getName()));
+        $this->assertEquals(true, $persoModel->isExist('Bidou'));
     }
 
     /**

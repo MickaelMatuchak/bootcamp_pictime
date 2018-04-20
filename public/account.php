@@ -30,8 +30,13 @@ try {
 $enemyName = $persoModel->getRandomEnemy($user->getId());
 
 if ($enemyName !== null) {
+    // Récupère le personnage ennemi
     $persoModel->hydrate($persoModel->getRandomEnemy($user->getId()));
     $enemy = $persoModel->fetch();
+
+    // Récupère l'utilisateur du personnage ennemi
+    $userModel->hydrate('id', $enemy->getUser());
+    $userEnemy = $userModel->fetch();
 }
 ?>
 
@@ -44,15 +49,18 @@ if ($enemyName !== null) {
     </head>
     <body>
         <h1>Hello, <?= htmlentities($user->getEmail()); ?> | PiCraft</h1>
-        <p>Ton nombre de victoire(s) : <?= $user->getVictory(); ?></p>
-        <p>Ton nombre de combat(s) : <?= $user->getFight(); ?></p>
+        <p>Victory : <?= $user->getVictory(); ?></p>
+        <p>Fight : <?= $user->getFight(); ?></p>
         <?php if ($user->getFight() !== 0) : ?>
-            <p>% de victoire : <?= 100 * $user->getVictory() / $user->getFight(); ?></p>
+            <p>Ratio : <?= 100 * $user->getVictory() / $user->getFight(); ?> %</p>
         <?php endif; ?>
+        <p>Points : <?= $user->getPoints(); ?></p>
+
         <hr>
 
         <h2>Objectif kill this Hero :</h2>
         <?php if ($enemyName && isset($enemy)): ?>
+            <p>User : <?= $userEnemy->getEmail() ?></p>
             <p>Hello, my name is <b><?= $enemy->getName(); ?> (<?= $enemy->getLife(); ?> HP)</b>. I'm <b><?= $enemy->getRace() ?></b>.</p>
             <p>
                 Stats :
@@ -86,10 +94,21 @@ if ($enemyName !== null) {
                     <tr>
                         <td><?= $perso->getName(); ?></td>
                         <td><?= $perso->getRace(); ?></td>
-                        <td><?= $perso->getLife(); ?> HP : <?= ($perso->getStatus() === true) ? 'In life' : 'Dead'; ?></td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="<?= $perso->getLife(); ?>"
+                                     aria-valuemin="0" aria-valuemax="100" style="width:<?= $perso->getLife(); ?>%">
+                                    <span class="sr-only"><?= $perso->getLife(); ?> HP : <?= ($perso->getStatus() === true) ? 'In life' : 'Dead'; ?></span>
+                                </div>
+                            </div>
+                            <?= $perso->getLife(); ?> HP : <?= ($perso->getStatus() === true) ? 'In life' : 'Dead'; ?>
+                        </td>
 
                         <?php foreach ($perso->getStats() as $key => $value): ?>
-                            <td><?= $value; ?></td>
+                            <td>
+                                <?= $value; ?>
+                                <button class="btn btn-light" disabled title="Coast: 300 points">+</button>
+                            </td>
                         <?php endforeach; ?>
 
                         <td>
@@ -138,6 +157,28 @@ if ($enemyName !== null) {
             <input type="submit" class="btn btn-success" value="Ok" />
         </form>
 
+        <hr>
+
+        <h3>Information : </h3>
+        <p>Basic statistics : 30 Force, 20 Armor, 10 Dexterity - Revive with 75HP !</p>
+        <h4>Races</h4>
+        <ul>
+            <li>Dwarf : +5 Force, +5 Armor, -2 Dexterity</li>
+            <li>Elf : -10 Force, +0 Armor, +10 Dexterity</li>
+            <li>Human : Basic statistics but he revive with 90 HP !</li>
+            <li>Orc : +4 Force, +4 Armor, +0 Dexterity</li>
+        </ul>
+        <h4>Fight</h4>
+            <p>Each round is like this :</p>
+            <p>While Personage 1 or Personage 2 are alive</p>
+            <ul>
+                <li>Personage 1 -> atk -> Personage 2</li>
+                <li>Personage 2 -> atk -> Personage 1</li>
+            </ul>
+            <br>
+            <p>Each attack contains random number between 0;100. If : (random number - $persoDef->getDexterity) <= 50,
+                BOOOOM. Else LOOSER YOU MISS THE HIT !</p>
+            <p>Dammage are calculted with this method : $persoDef->getLife - ($persoAtk->getForce - (20% * $persoDef->getArmor))</p>
         <hr>
 
         <h2>Rage quit ?</h2>

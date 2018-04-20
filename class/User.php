@@ -8,6 +8,7 @@ class User
     private $email;
     private $password;
     private $personages;
+    private $points = 0;
     private $fight = 0;
     private $victory = 0;
 
@@ -80,6 +81,16 @@ class User
     public function setVictory(int $victory)
     {
         $this->victory = $victory;
+    }
+
+    public function getPoints(): int
+    {
+        return $this->points;
+    }
+
+    public function setPoints(int $points)
+    {
+        $this->points = $points;
     }
 
     public function __toString(): string

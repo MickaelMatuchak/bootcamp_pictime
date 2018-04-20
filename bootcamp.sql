@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  jeu. 19 avr. 2018 à 16:05
+-- Généré le :  ven. 20 avr. 2018 à 16:49
 -- Version du serveur :  5.6.39
 -- Version de PHP :  7.0.28-1+0~20180306105011.16+stretch~1.gbpe20ff4
 
@@ -34,6 +34,7 @@ CREATE TABLE `personage` (
   `life` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `race` varchar(255) NOT NULL,
+  `victory` int(11) NOT NULL DEFAULT '0',
   `user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -50,6 +51,27 @@ CREATE TABLE `stat` (
   `value` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `stat`
+--
+
+INSERT INTO `stat` (`id`, `race`, `name`, `value`) VALUES
+(1, 'Default', 'force', 30),
+(2, 'Default', 'armor', 20),
+(3, 'Default', 'dexterity', 10),
+(4, 'Dwarf', 'force', 5),
+(5, 'Dwarf', 'armor', 5),
+(6, 'Dwarf', 'dexterity', -2),
+(7, 'Elf', 'force', -10),
+(8, 'Elf', 'armor', 0),
+(9, 'Elf', 'dexterity', 10),
+(10, 'Human', 'force', 0),
+(11, 'Human', 'armor', 0),
+(12, 'Human', 'dexterity', 0),
+(13, 'Orc', 'force', 4),
+(14, 'Orc', 'armor', 4),
+(15, 'Orc', 'dexterity', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -59,7 +81,10 @@ CREATE TABLE `stat` (
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `fight` int(11) NOT NULL DEFAULT '0',
+  `victory` int(11) NOT NULL DEFAULT '0',
+  `points` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -93,19 +118,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `personage`
 --
 ALTER TABLE `personage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `stat`
 --
 ALTER TABLE `stat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Contraintes pour les tables déchargées

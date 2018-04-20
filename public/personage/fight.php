@@ -79,9 +79,11 @@ if ($_POST['perso'] && $_POST['enemy']) {
     // On détermine le gagnant
     if ($perso->getLife() > 0) {
         $user->setVictory($user->getVictory() + 1);
+        $user->setPoints($user->getPoints() + 100);
         $winner = $perso;
     } else {
         $userEnemy->setVictory($userEnemy->getVictory() + 1);
+        $userEnemy->setPoints($userEnemy->getPoints() + 100);
         $winner = $enemy;
     }
 

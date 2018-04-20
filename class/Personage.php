@@ -10,6 +10,7 @@ Abstract class Personage
     protected $race;
     protected $user;
     protected $stats;
+    protected $victory = 0;
 
     const RACES = ['Dwarf', 'Elf', 'Orc', 'Human'];
 
@@ -90,6 +91,16 @@ Abstract class Personage
         return false;
     }
 
+    public function getVictory(): int
+    {
+        return $this->victory;
+    }
+
+    public function setVictory(int $victory)
+    {
+        $this->victory = $victory;
+    }
+
     public function attack(Personage $perso, int $jet): bool
     {
         if ($jet - $perso->getStats()['dexterity'] <= 50) {
@@ -115,7 +126,7 @@ Abstract class Personage
             $this->setLife(75);
 
             if ($this->getRace() === 'Human')
-                $this->setLife(100);
+                $this->setLife(90);
         }
     }
 }
