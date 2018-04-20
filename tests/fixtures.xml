@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <dataset>
-    <user id="1" email="mickael.matuchak@pictime-groupe.com" password="azerty" />
+    <user id="1" email="mickael.matuchak@pictime-groupe.com" password="azerty" fight="10" victory="10" />
 
     <personage id="1" name="Bidou" life="100" status="1" race="Dwarf" user="1" />
 

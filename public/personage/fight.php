@@ -21,7 +21,7 @@ $userModel = new UserModel($db);
 $persoModel = new PersonageModel($db);
 
 try {
-    $userModel->hydrate($_SESSION['email']);
+    $userModel->hydrate('email', $_SESSION['email']);
     $user = $userModel->fetch();
 } catch (InvalidArgumentException $exception){
     echo $exception;
@@ -69,16 +69,29 @@ if ($_POST['perso'] && $_POST['enemy']) {
         }
     }
 
-    $persoModel->update($enemy);
-    $persoModel->update($perso);
+    $userModel->hydrate('id', $enemy->getUser());
+    $userEnemy = $userModel->fetch();
+
+    // On ajoute un combat aux personnages
+    $user->setFight($user->getFight() + 1);
+    $userEnemy->setFight($userEnemy->getFight() + 1);
 
     // On détermine le gagnant
     if ($perso->getLife() > 0) {
+        $user->setVictory($user->getVictory() + 1);
         $winner = $perso;
     } else {
+        $userEnemy->setVictory($userEnemy->getVictory() + 1);
         $winner = $enemy;
     }
 
+    // On sauvegarde l'état personnages
+    $persoModel->update($enemy);
+    $persoModel->update($perso);
+
+    // On sauvegarde le compteur des utilisateurs
+    $userModel->update($user);
+    $userModel->update($userEnemy);
 } else {
     header('Location: ../account.php');
 }

@@ -74,7 +74,7 @@ class UserModelTest extends TestCase
         $db = Pdo::getInstance();
         $userModel = new UserModel($db);
 
-        $userModel->hydrate($user->getEmail());
+        $userModel->hydrate('email', $user->getEmail());
         $user = $userModel->fetch();
 
         $this->assertEquals(1, $user->getId());
@@ -93,7 +93,19 @@ class UserModelTest extends TestCase
         $db = Pdo::getInstance();
         $userModel = new UserModel($db);
 
-        $userModel->hydrate($user->getEmail());
+        $userModel->hydrate('email', $user->getEmail());
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function hydrateFakeValueUser()
+    {
+        $db = Pdo::getInstance();
+        $userModel = new UserModel($db);
+
+        $userModel->hydrate('DontExistColumn', '');
     }
 
     /**

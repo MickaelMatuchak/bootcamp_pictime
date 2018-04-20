@@ -20,7 +20,7 @@ $userModel = new UserModel($db);
 $persoModel = new PersonageModel($db);
 
 try {
-     $userModel->hydrate($_SESSION['email']);
+     $userModel->hydrate('email', $_SESSION['email']);
      $user = $userModel->fetch();
 } catch (InvalidArgumentException $exception){
     echo $exception;
@@ -44,7 +44,11 @@ if ($enemyName !== null) {
     </head>
     <body>
         <h1>Hello, <?= htmlentities($user->getEmail()); ?> | PiCraft</h1>
-
+        <p>Ton nombre de victoire(s) : <?= $user->getVictory(); ?></p>
+        <p>Ton nombre de combat(s) : <?= $user->getFight(); ?></p>
+        <?php if ($user->getFight() !== 0) : ?>
+            <p>% de victoire : <?= 100 * $user->getVictory() / $user->getFight(); ?></p>
+        <?php endif; ?>
         <hr>
 
         <h2>Objectif kill this Hero :</h2>

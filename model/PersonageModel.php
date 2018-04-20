@@ -71,17 +71,30 @@ class PersonageModel
         // On récupère la classe de la race
         $class = "Bootcamp\Entities\\" . $perso['race'];
         $this->personage = new $class($name, $perso['life']);
+
+        // Récupère l'utilisateur
+        $userModel = new UserModel($this->db);
         $this->personage->setUser($perso['user']);
 
         $statModel = new StatModel($this->db);
 
         // On calcul les caractéristiques du perso
         foreach (Stat::ATTRIBUTES as $statName) {
-            $statModel->hydrate($this->personage->getRace(), $statName);
-            $stat = $statModel->fetch();
+            try {
+                $statModel->hydrate($this->personage->getRace(), $statName);
+                $stat = $statModel->fetch();
+            } catch (\InvalidArgumentException $exception) {
+                echo $exception;
+                return ;
+            }
 
-            $statModel->hydrate('Default', $statName);
-            $statDefault = $statModel->fetch();
+            try {
+                $statModel->hydrate('Default', $statName);
+                $statDefault = $statModel->fetch();
+            } catch (\InvalidArgumentException $exception) {
+                echo $exception;
+                return ;
+            }
 
             $this->personage->setStats($stat->getName(), $stat->getValue() + $statDefault->getValue());
         }

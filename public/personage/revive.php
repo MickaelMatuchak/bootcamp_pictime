@@ -21,7 +21,7 @@ $userModel = new UserModel($db);
 $persoModel = new PersonageModel($db);
 
 try {
-    $userModel->hydrate($_SESSION['email']);
+    $userModel->hydrate('email', $_SESSION['email']);
     $user = $userModel->fetch();
 } catch (InvalidArgumentException $exception){
     echo $exception;

@@ -42,17 +42,17 @@ class UserModel
     // Enregistre un utilisateur en BDD
     public function saveUser(User $user)
     {
-        $req = $this->db->prepare('INSERT INTO user (email, password) VALUES (:email, :password)');
-        $req->execute(array('email' => $user->getEmail(), 'password' => $user->getPassword()));
+        $req = $this->db->prepare('INSERT INTO user (email, password, fight, victory) VALUES (:email, :password, :fight, :victory)');
+        $req->execute(array('email' => $user->getEmail(), 'password' => $user->getPassword(), 'fight' => $user->getFight(), 'victory' => $user->getVictory()));
 
         $req->closeCursor();
     }
 
-    // Fournit les données de la BDD à l'objet
-    public function hydrate($email)
+    // Fournit les données de la BDD à l'objet en fonction de son $name = $value
+    public function hydrate(string $name, $value)
     {
-        $req = $this->db->prepare('SELECT id, email, password FROM user WHERE email = :email');
-        $req->execute(array('email' => $email));
+        $req = $this->db->prepare('SELECT id, email, password, fight, victory FROM user WHERE ' . $name . ' = :' . $name);
+        $req->execute(array($name => $value));
 
         $data = $req->fetch();
         $req->closeCursor();
@@ -60,6 +60,8 @@ class UserModel
         if ($data !== false) {
             $user = new User($data['email'], $data['password']);
             $user->setId($data['id']);
+            $user->setFight($data['fight']);
+            $user->setVictory($data['victory']);
 
             // Recherche tous les personnages du joueur
             $personages = new PersonageModel($this->db);
@@ -89,5 +91,19 @@ class UserModel
     public function fetch(): User
     {
         return $this->user;
+    }
+
+    // Met à jour l'utilisateur
+    public function update(User $user)
+    {
+        $req = $this->db->prepare('UPDATE user SET fight = :fight, victory = :victory WHERE email = :email');
+
+        $req->execute(array(
+            'fight' => $user->getFight(),
+            'victory' => $user->getVictory(),
+            'email' => $user->getEmail()
+        ));
+
+        $req->closeCursor();
     }
 }

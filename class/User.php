@@ -8,6 +8,8 @@ class User
     private $email;
     private $password;
     private $personages;
+    private $fight = 0;
+    private $victory = 0;
 
     public function __construct(string $email, string $password)
     {
@@ -58,6 +60,26 @@ class User
     public function setSession()
     {
         $_SESSION['email'] = $this->getEmail();
+    }
+
+    public function getFight(): int
+    {
+        return $this->fight;
+    }
+
+    public function setFight(int $fight)
+    {
+        $this->fight = $fight;
+    }
+
+    public function getVictory(): int
+    {
+        return $this->victory;
+    }
+
+    public function setVictory(int $victory)
+    {
+        $this->victory = $victory;
     }
 
     public function __toString(): string
