@@ -43,6 +43,7 @@ Abstract class Personage
             $this->life = 0;
             $this->status = false;
         } else {
+            $this->status = true;
             $this->life = $life;
         }
     }
@@ -78,12 +79,15 @@ Abstract class Personage
         return $this->stats;
     }
 
-    public function setStats(string $name, int $value)
+    public function setStats(string $name, int $value): bool
     {
         // La caractéristique est définie alors on l'a modifie
         if (in_array($name, Stat::ATTRIBUTES)) {
             $this->stats[$name] = $value;
+            return true;
         }
+
+        return false;
     }
 
     public function attack(Personage $perso, int $jet): bool
@@ -92,7 +96,7 @@ Abstract class Personage
             return false;
         } else {
             // On récupère les HP de perso et on fait le calcul ((0.2 * perso.armure) - this.force))
-            $hp = $perso->getLife() - (0.2 * $perso->getStats()['armor']) - $this->getStats()['force'];
+            $hp = $perso->getLife() - ($this->getStats()['force'] - (0.2 * $perso->getStats()['armor']));
             $perso->setLife($hp);
 
             return true;
@@ -102,5 +106,16 @@ Abstract class Personage
     public static function jet(): int
     {
         return rand(0, 100);
+    }
+
+    public function revive()
+    {
+        if ($this->getStatus() === false) {
+
+            $this->setLife(75);
+
+            if ($this->getRace() === 'Human')
+                $this->setLife(100);
+        }
     }
 }

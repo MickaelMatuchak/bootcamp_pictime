@@ -20,7 +20,7 @@ if (isset($_SESSION['email'])) {
         <hr>
 
         <h2>Register now</h2>
-        <form action="register.php" method="post">
+        <form action="user/register.php" method="post">
             <div class="form-group">
                 <label for="register-email">Email</label>
                 <input type="email" placeholder="your-email.com" name="email" class="form-control" id="register-email" />
@@ -39,7 +39,7 @@ if (isset($_SESSION['email'])) {
         <hr>
 
         <h2>I have already an account</h2>
-        <form action="login.php" method="post">
+        <form action="user/login.php" method="post">
             <div class="form-group">
                 <label for="login-email">Email</label>
                 <input type="email" placeholder="your-email.com" name="email" class="form-control" id="login-email" />

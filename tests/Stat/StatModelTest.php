@@ -19,12 +19,12 @@ class StatModelTest extends TestCase
         $db = Pdo::getInstance();
         $statModel = new StatModel($db);
 
-        $statModel->hydrate(Personage::RACES['0'], 'armor');
+        $statModel->hydrate(Personage::RACES['0'], 'force');
         $stat = $statModel->fetch();
 
         $this->assertEquals('4', $stat->getId());
         $this->assertEquals(Personage::RACES['0'], $stat->getRace());
-        $this->assertEquals('armor', $stat->getName());
+        $this->assertEquals('force', $stat->getName());
         $this->assertEquals('1', $stat->getValue());
     }
 

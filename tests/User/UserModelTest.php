@@ -42,7 +42,7 @@ class UserModelTest extends TestCase
     public function expectedUserIdExist()
     {
         $user = new User('mickael.matuchak@pictime-groupe.com', '');
-        $user->setId(3);
+        $user->setId(1);
 
         $db = Pdo::getInstance();
         $userModel = new UserModel($db);

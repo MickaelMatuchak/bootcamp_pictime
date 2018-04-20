@@ -5,7 +5,7 @@
 session_start();
 
 if (!$_SESSION['email']) {
-    header('Location: index.php');
+    header('Location: ../index.php');
 }
 
 require_once '../../vendor/autoload.php';
@@ -30,7 +30,6 @@ try {
 
 // Si un personnage et un ennemie ont été envoyé ont commence le traitement du combat
 if ($_POST['perso'] && $_POST['enemy']) {
-    $persoModel = new PersonageModel(Pdo::getInstance());
 
     $persoModel->hydrate($_POST['perso']);
     $perso = $persoModel->fetch();
@@ -38,7 +37,7 @@ if ($_POST['perso'] && $_POST['enemy']) {
     $persoModel->hydrate($_POST['enemy']);
     $enemy = $persoModel->fetch();
 
-    // Si la session utilisateur est différente du personnage || ou le propriétaire des deux personnages est identiques ont redirectionne
+    // Si la session utilisateur est différente du personnage || ou le propriétaire des deux personnages est identiques ont redirige
     if ($user->getId() !== $perso->getUser() || $enemy->getUser() === $perso->getUser()) header('Location: ../account.php');
 
     // On peut commencer le combat

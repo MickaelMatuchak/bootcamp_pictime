@@ -4,7 +4,7 @@
 
 session_start();
 
-require_once '../vendor/autoload.php';
+require_once '../../vendor/autoload.php';
 
 use Bootcamp\Entities\User;
 use Bootcamp\Entities\Pdo;
@@ -30,4 +30,4 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['retype-
 }
 
 // Redirige sur la page d'accueil
-header('Location: index.php');
+header('Location: ../index.php');

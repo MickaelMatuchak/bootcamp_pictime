@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<dataset>
+    <user id="1" email="mickael.matuchak@pictime-groupe.com" password="azerty" />
+
+    <personage id="1" name="Bidou" life="100" status="1" race="Dwarf" user="1" />
+
+    <stat id="1" race="Default" name="force" value="30" />
+    <stat id="2" race="Default" name="armor" value="20" />
+    <stat id="3" race="Default" name="dexterity" value="10" />
+    <stat id="4" race="Dwarf" name="force" value="1" />
+    <stat id="5" race="Dwarf" name="armor" value="1" />
+    <stat id="6" race="Dwarf" name="dexterity" value="-1" />
+    <stat id="7" race="Elf" name="force" value="-1" />
+    <stat id="8" race="Elf" name="armor" value="0" />
+    <stat id="9" race="Elf" name="dexterity" value="2" />
+    <stat id="10" race="Human" name="force" value="0" />
+    <stat id="11" race="Human" name="armor" value="0" />
+    <stat id="12" race="Human" name="dexterity" value="0" />
+    <stat id="13" race="Orc" name="force" value="1" />
+    <stat id="14" race="Orc" name="armor" value="1" />
+    <stat id="15" race="Orc" name="dexterity" value="0" />
+</dataset>

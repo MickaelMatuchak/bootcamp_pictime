@@ -51,10 +51,12 @@ if ($enemyName !== null) {
         <?php if ($enemyName && isset($enemy)): ?>
             <p>Hello, my name is <b><?= $enemy->getName(); ?> (<?= $enemy->getLife(); ?> HP)</b>. I'm <b><?= $enemy->getRace() ?></b>.</p>
             <p>
-                Stats : <br>
-                <?php foreach ($enemy->getStats() as $key => $value): ?>
-                    <?= $key; ?> : <?= $value; ?> <br>
-                <?php endforeach; ?>
+                Stats :
+                <ul>
+                    <?php foreach ($enemy->getStats() as $key => $value): ?>
+                        <li><?= $key; ?> : <?= $value; ?> </li>
+                    <?php endforeach; ?>
+                </ul>
             </p>
         <?php else: ?>
             <p>Wait for enemy</p>
@@ -98,7 +100,10 @@ if ($enemyName !== null) {
                                 <?php endif; ?>
 
                             <?php else: ?>
-                                <input class="btn btn-danger" type="submit" value="Revive" />
+                                <form action="personage/revive.php" method="post">
+                                    <input type="hidden" name="perso" value="<?= $perso->getName(); ?>" />
+                                    <input class="btn btn-dark" type="submit" value="Revive" />
+                                </form>
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -132,7 +137,7 @@ if ($enemyName !== null) {
         <hr>
 
         <h2>Rage quit ?</h2>
-        <form action="logout.php" method="post">
+        <form action="user/logout.php" method="post">
             <input type="submit" class="btn btn-danger" value="Log out" />
         </form>
 
